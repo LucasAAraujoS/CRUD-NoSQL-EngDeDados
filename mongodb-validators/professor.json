@@ -1,0 +1,105 @@
+{
+  "$jsonSchema": {
+    "bsonType": "object",
+    "required": [
+      "mat_professor",
+      "usuario"
+    ],
+    "additionalProperties": false,
+    "description": "Validação da coleção professor com o subdocumento usuario embutido",
+    "properties": {
+      "_id": {
+        "bsonType": "objectId"
+      },
+      "mat_professor": {
+        "bsonType": "string",
+        "description": "Matrícula do professor - PK"
+      },
+      "departamento": {
+        "bsonType": "string",
+        "description": "Departamento ao qual o professor está alocado"
+      },
+      "formacao": {
+        "enum": [
+          "Graduação",
+          "Especialização",
+          "Mestrado",
+          "Doutorado"
+        ],
+        "description": "Tipo de formação do professor"
+      },
+      "data_admissao": {
+        "bsonType": "date",
+        "description": "Data em que o professor foi contratado"
+      },
+      "tipo_jornada_trabalho": {
+        "enum": [
+          "20h",
+          "40h",
+          "DE"
+        ],
+        "description": "Tipo da jornada de trabalho do professor"
+      },
+      "salario": {
+        "bsonType": "double",
+        "description": "salário do professor, lastreado de float"
+      },
+      "usuario": {
+        "bsonType": "object",
+        "required": [
+          "cpf",
+          "nome"
+        ],
+        "additionalProperties": false,
+        "description": "Dados civis e de login incorporados da tabela relacional usuario (de forma 1:1)",
+        "properties": {
+          "cpf": {
+            "bsonType": "long",
+            "description": "CPF do professor mapeado de NUMERIC(13) para o tipo long"
+          },
+          "nome": {
+            "bsonType": "string",
+            "description": "Nome completo do professor - Obrigatório"
+          },
+          "data_nascimento": {
+            "bsonType": ["date", "null"],
+            "description": "Data de nascimento"
+          },
+          "email": {
+            "bsonType": "array",
+            "items": { "bsonType": "string" },
+            "description": "Lista (array) de e-mails do usuário"
+          },
+          "telefone": {
+            "bsonType": "array",
+            "items": { "bsonType": "string" },
+            "description": "Lista (array) de telefones do usuário"
+          },
+          "login": {
+            "bsonType": "string",
+            "description": "Login único para acesso ao sistema"
+          },
+          "senha": {
+            "bsonType": "string",
+            "description": "Senha em texto"
+          }
+        }
+      },
+      "leciona": {
+        "bsonType": "array",
+        "description": "Relação de professor com o conjunto leciona (turmas ministradas)",
+        "items": {
+          "bsonType": "object",
+          "required": ["id_turma"],
+          "additionalProperties": false,
+          "properties": {
+            "id_turma": {
+              "bsonType": "int",
+              "description": "id da turma que o professor leciona (FK)"
+            }
+          }
+        }
+      }
+    }
+  }
+}
